@@ -8,24 +8,64 @@ class App extends Component {
       currentUser: {}
     }
 
-    
+    fetchUser = event => {
+    event.preventDefault()
+
+    let email = event.target.email.value;
+    let password = event.target.password.value;
+
+    let body = {
+      email,
+      password
+    }
+    fetch(API_ROOT+'/auth', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+    })
+    .then(res => res.json())
+    .then(res => this.handleLogin(res))
+  }
+
+  createUser = event => {
+    event.preventDefault()
+    let name = event.target.name.value;
+    let email = event.target.email.value;
+    let password = event.target.password.value;
+    let body = {
+      user : {
+        name,
+        email,
+        password
+      }
+    }
+    fetch(API_ROOT+'/users', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+    })
+    .then(res => res.json())
+    .then(res => this.handleLogin(res))
+  }
+
+  handleLogin = res => {
+    localStorage.setItem("jwt", res.jwt)
+      this.setState({
+      currentUser: res.current_user.user
+    })
+  }
+
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div >
+        {this.state.currentUser.name ?
+          <ConversationsList user={this.state.currentUser}/>
+          : <Welcome fetchUser={this.fetchUser} createUser={this.createUser}/>}
       </div>
     );
   }
