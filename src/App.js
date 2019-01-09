@@ -4,6 +4,11 @@ import ConversationsList from './components/ConversationsList';
 import { API_ROOT } from './constants';
 
 class App extends Component {
+  state ={
+      currentUser: {}
+    }
+
+    
   render() {
     return (
       <div className="App">
