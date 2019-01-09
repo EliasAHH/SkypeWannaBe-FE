@@ -1,16 +1,16 @@
 import React, {Component, Fragment} from 'react';
 import Login from '../components/welcome/Login'
-import SignUp from '../components/welcome/SignUp'
+import SignUp from '../components/welcome/Signup'
 
 class LogInSignUp extends Component {
   state = {
     login:true
   }
 
-  changeLogin = turnary ={
-    if(this.state.login !== turnary) {
+  changeLogin = turnary => {
+    if(this.state.login !== turnary){
       this.setState({
-        login:turnary
+        login: turnary
       })
     }
   }
@@ -20,13 +20,16 @@ class LogInSignUp extends Component {
     const { login } = this.state;
     const { fetchUser, createUser } = this.props
 
-    return ( <div>
-              <button type="button" onClick={() =>this.changeLogin(true)}
+    return (
+      <div>
+              <button type="button" onClick={() => this.changeLogin(true)} >
                 Log In
               </button>
-              <button type="button" onClick={() =>this.changeLogin(false)}
+
+              <button type="button" onClick={() => this.changeLogin(false)} >
                 Sign Up
               </button>
+
               {login?
                 <Fragment>
                   <h2>Log-in to your account</h2>
@@ -40,5 +43,7 @@ class LogInSignUp extends Component {
               }
           </div>
         )
-  }
+    }
 }
+
+export default LogInSignUp
